@@ -26,5 +26,5 @@ async function verifyToken(req,res,next){
 }
 module.exports ={
     getToken,
-    verifyToken
+    verifyToken,
 }

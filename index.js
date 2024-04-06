@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(
     cors({
-        origin:["http://localhost:5173"],  //update origin to match found URL
+        origin:'*',  //update origin to match found URL
         methods:["GET","POST","PUT","DELETE"],
         credentials:true,
     })

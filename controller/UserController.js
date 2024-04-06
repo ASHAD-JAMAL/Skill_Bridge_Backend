@@ -3,6 +3,7 @@ const { validationResult } = require("express-validator");
 const httpStatusCode = require("../constant/httpStatusCode");
 const UserModel = require("../models/userModel");
 const { getToken } = require("../middleware/authMiddleware");
+const {SendEmail}=require('../Services/emailService');
 
 const registerUser = async (req, res) => {
   try {
@@ -58,6 +59,10 @@ const registerUser = async (req, res) => {
         message:"error is comming in the creating the user"
       })
     }
+    // Send a congratulatory email to the user
+    SendEmail(email,user.username);
+
+
     return res.status(httpStatusCode.CREATED).json({
       success: true,
       message: "User registered successfully",
@@ -100,6 +105,8 @@ const loginUser = async (req, res) => {
       });
     }
 
+
+    SendEmail(email,user.username);
     const token = await getToken(user);
 
     return res.status(httpStatusCode.OK).json({

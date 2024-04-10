@@ -16,7 +16,7 @@ const registerUser = async (req, res) => {
       });
     }
 
-    const { firstname, lastname, username, email, phone, password, city, state, zip, role } = req.body;
+    const { firstname, lastname, username, email, phone, password,profession, city, state, zip, role } = req.body;
 
     // Check if user with provided email or phone already exists
     const existingUser = await UserModel.findOne({ email });
@@ -39,6 +39,7 @@ const registerUser = async (req, res) => {
         email,
         phone,
         password: hashedPassword,
+        profession,
         city,
         state,
         zip,
@@ -52,6 +53,7 @@ const registerUser = async (req, res) => {
         email,
         phone,
         password: hashedPassword,
+        profession,
         city,
         state,
         zip,
@@ -116,7 +118,7 @@ const loginUser = async (req, res) => {
       });
     }
 
-    SendEmail(email, user.username);
+    // SendEmail(email, user.username);
     const token = await getToken(user);
 
     return res.status(httpStatusCode.OK).json({

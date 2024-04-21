@@ -1,15 +1,28 @@
 const httpStatusCode = require('../constant/httpStatusCode');
 const workerModel = require('../models/workerModel')
-
+const UserModel= require('../models/userModel');
 const viewWorker = async (req,res) =>{
     try{
-        const workers = await workerModel.find();
+        const userId=req.user._id;
+        const user=await UserModel.findById(userId);
+        if(!user){
+            return res.status(httpStatusCode.NOT_FOUND).json({
+                success:false,
+                message:"User Not Found!!"
+            })
+        }
+
+        const workers = await workerModel.find({city:user.city});
         if(!workers){
             return res.status(httpStatusCode.BAD_REQUEST).json({
                 success:false,
                 message:"worker are not found",
             })
         }
+        
+        console.log("workers:",workers);
+        console.log("user",user);
+
         return res.status(httpStatusCode.OK).json({
             success:true,
             message:"Successfully worker found",

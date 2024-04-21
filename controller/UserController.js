@@ -16,11 +16,22 @@ const registerUser = async (req, res) => {
       });
     }
 
-    const { firstname, lastname, username, email, phone, password,profession, city, state, zip, role } = req.body;
+    const { firstname, lastname, username, email, phone, password,profession, city, state, zip, role} = req.body;
 
+    let profileImage;
+    if (req.file) {
+      profileImage = req.file.filename;
+    }
     // Check if user with provided email or phone already exists
-    const existingUser = await UserModel.findOne({ email });
+    let existingUser = await UserModel.findOne({ email });
     if (existingUser) {
+      return res.status(httpStatusCode.CONFLICT).json({
+        success: false,
+        message: "User is already registered with this email. Please sign in.",
+      });
+    }
+    existingUser = await workerModel.findOne({ email });
+    if(existingUser){
       return res.status(httpStatusCode.CONFLICT).json({
         success: false,
         message: "User is already registered with this email. Please sign in.",
@@ -44,6 +55,7 @@ const registerUser = async (req, res) => {
         state,
         zip,
         role,
+        profileImage
       });
     } else if (role === "worker") {
       user = await workerModel.create({
@@ -58,6 +70,7 @@ const registerUser = async (req, res) => {
         state,
         zip,
         role,
+        profileImage
       });
     }
 

@@ -61,7 +61,33 @@ const viewWokerProfile = async(req,res)=>{
         })
     }
 }
+
+const ViewWorkersAll= async(req,res)=>{
+    try{
+        const allWorker = await workerModel.find();
+        if(!allWorker) {
+            return res.status(httpStatusCode.BAD_REQUEST).json({
+                success:false,
+                message:"workers are not found"
+            })
+        }
+        return res.status(httpStatusCode.OK).json({
+            success:true,
+            message:"Worker Found",
+            data:allWorker
+        })
+    }catch(error){
+        console.log("something went wrong");
+        return res.status(httpStatusCode.INTERNAL_SERVER_ERROR).json({
+            success:false,
+            message:"Something Went Wrong",
+            error:error.message
+        })
+    }
+}
+
 module.exports={
     viewWorker,
     viewWokerProfile,
+    ViewWorkersAll,
 }

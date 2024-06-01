@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -5,7 +7,6 @@ const cors = require("cors");
 const { dbConnection } = require("./configs/db");
 const path = require('path');
 
-require("dotenv").config();
 
 const mainRoutes = require("./routes/mainRoutes");
 

@@ -5,7 +5,6 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const { dbConnection } = require("./configs/db");
-const path = require('path');
 
 
 const mainRoutes = require("./routes/mainRoutes");
